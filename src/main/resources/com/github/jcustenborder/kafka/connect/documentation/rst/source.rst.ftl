@@ -66,7 +66,7 @@ Suspend until a debugger is attached
 
 .. code-block:: bash
 
-    export SUSPEND='y'
+     export DEBUG_SUSPEND_FLAG='y'
     ./bin/debug.sh
 
 
