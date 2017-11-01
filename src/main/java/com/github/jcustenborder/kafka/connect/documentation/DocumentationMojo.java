@@ -85,6 +85,7 @@ public class DocumentationMojo extends AbstractMojo {
     }
 
     Model mainPom = load(pomFile);
+
     final List<Model> models = new ArrayList<>();
 
     if ("pom".equals(mainPom.getPackaging())) {
@@ -107,6 +108,12 @@ public class DocumentationMojo extends AbstractMojo {
   void processTemplate(String templateName, Model model, String fileName) throws MojoExecutionException, MojoFailureException {
     try {
       final File outputFile = new File(this.outputDirectory, fileName);
+      final File parentDirectory = outputFile.getParentFile();
+      if (!parentDirectory.exists()) {
+        parentDirectory.mkdirs();
+      }
+
+
       Template template = configuration.getTemplate(templateName);
       getLog().info(
           String.format("Writing %s", outputFile)
@@ -122,6 +129,11 @@ public class DocumentationMojo extends AbstractMojo {
   }
 
   void process(Model model) throws MojoExecutionException, MojoFailureException {
-    processTemplate("install.rst.ftl", model, "install.rst");
+    processTemplate("contributors.rst.ftl", model, "info/contributors.rst");
+    processTemplate("info.rst.ftl", model, "info.rst");
+    processTemplate("install.rst.ftl", model, "info/install.rst");
+    processTemplate("license.rst.ftl", model, "info/license.rst");
+    processTemplate("support.rst.ftl", model, "info/support.rst");
+    processTemplate("source.rst.ftl", model, "info/source.rst");
   }
 }
